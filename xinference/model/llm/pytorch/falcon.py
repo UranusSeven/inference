@@ -14,6 +14,9 @@
 
 from typing import TYPE_CHECKING, List, Optional
 
+import torch
+
+from xinference.constants import XINFERENCE_CACHE_DIR
 from xinference.types import ChatCompletionMessage
 
 from .core import PytorchChatModel, PytorchModelConfig
@@ -47,6 +50,37 @@ class FalconPytorch(PytorchChatModel):
             pytorch_model_config=pytorch_model_config,
         )
         self._use_fast_tokenizer = False
+
+    def _load_model(self, kwargs: dict):
+        try:
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+            from transformers.generation.utils import GenerationConfig
+        except ImportError:
+            error_message = "Failed to import module 'transformers'"
+            installation_guide = [
+                "Please make sure 'transformers' is installed. ",
+                "You can install it by `pip install transformers`\n",
+            ]
+
+            raise ImportError(f"{error_message}\n\n{''.join(installation_guide)}")
+
+        tokenizer = AutoTokenizer.from_pretrained(
+            self._model_path,
+            use_fast=self._use_fast_tokenizer,
+            trust_remote_code=True,
+            revision=kwargs["revision"],
+            cache_dir=XINFERENCE_CACHE_DIR,
+        )
+        model = AutoModelForCausalLM.from_pretrained(
+            self._model_path,
+            trust_remote_code=True,
+            cache_dir=XINFERENCE_CACHE_DIR,
+            torch_dtype=torch.bfloat16,
+            device_map="auto",
+            **kwargs,
+        )
+        model.generation_config = GenerationConfig.from_pretrained(self._model_path)
+        return model, tokenizer
 
     def _to_prompt(
         self,
