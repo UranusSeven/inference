@@ -64,6 +64,8 @@ class FalconPytorch(PytorchChatModel):
 
             raise ImportError(f"{error_message}\n\n{''.join(installation_guide)}")
 
+        kwargs["torch_dtype"] = torch.bfloat16
+
         tokenizer = AutoTokenizer.from_pretrained(
             self._model_path,
             use_fast=self._use_fast_tokenizer,
@@ -76,7 +78,6 @@ class FalconPytorch(PytorchChatModel):
             trust_remote_code=True,
             cache_dir=XINFERENCE_CACHE_DIR,
             device_map="auto",
-            torch_dtype=torch.bfloat16,
             **kwargs,
         )
         model.generation_config = GenerationConfig.from_pretrained(self._model_path)
