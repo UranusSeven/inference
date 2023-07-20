@@ -14,6 +14,8 @@
 
 from typing import TYPE_CHECKING, List, Optional
 
+import torch
+
 from xinference.constants import XINFERENCE_CACHE_DIR
 from xinference.types import ChatCompletionMessage
 
@@ -74,6 +76,7 @@ class FalconPytorch(PytorchChatModel):
             trust_remote_code=True,
             cache_dir=XINFERENCE_CACHE_DIR,
             device_map="auto",
+            torch_dtype=torch.bfloat16,
             **kwargs,
         )
         model.generation_config = GenerationConfig.from_pretrained(self._model_path)
