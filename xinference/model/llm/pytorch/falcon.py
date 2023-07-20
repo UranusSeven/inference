@@ -77,7 +77,7 @@ class FalconPytorch(PytorchChatModel):
             self._model_path,
             trust_remote_code=True,
             cache_dir=XINFERENCE_CACHE_DIR,
-            device_map="auto",
+            device_map="sequential",
             **kwargs,
         )
         model.generation_config = GenerationConfig.from_pretrained(self._model_path)
