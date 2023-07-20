@@ -34,18 +34,18 @@ async def create_worker_actor_pool(
         cuda_device_indices = list(range(cuda_count()))
 
     if cuda_device_indices:
-        envs = []
-        labels = ["main"]
-        for i in cuda_device_indices:
-            envs.append({"CUDA_VISIBLE_DEVICES": str(i)})
-            labels.append(f"gpu-{i}")
+        # envs = []
+        # labels = ["main"]
+        # for i in cuda_device_indices:
+        # envs.append({"CUDA_VISIBLE_DEVICES": str(i)})
+        # labels.append(f"gpu-{i}")
 
         n_process = len(cuda_device_indices)
         pool = await xo.create_actor_pool(
             address=address,
             n_process=n_process,
-            labels=labels,
-            envs=envs,
+            # labels=labels,
+            # envs=envs,
             logging_conf=logging_conf,
         )
         return pool
@@ -63,7 +63,7 @@ async def create_worker_actor_pool(
         pool = await xo.create_actor_pool(
             address=address,
             n_process=n_process,
-            labels=labels,
+            # labels=labels,
             logging_conf=logging_conf,
         )
         return pool

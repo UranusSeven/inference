@@ -20,6 +20,7 @@ def install():
     from .llama2 import Llama2ChatGgml
     from .orca import OrcaMiniGgml
     from .pytorch.baichuan import BaichuanPytorch, BaichuanPytorchChat
+    from .pytorch.llama2 import Llama2ChatPytorch
     from .pytorch.vicuna import VicunaCensoredPytorch
     from .vicuna import VicunaCensoredGgml
     from .wizardlm import WizardlmGgml
@@ -327,5 +328,33 @@ def install():
             quantizations=["none"],
             url_generator=pytorch_vicuna_v1_3_name_generator,
             cls=VicunaCensoredPytorch,
+        ),
+    )
+
+    llama2_pytorch_url_generator = lambda model_size, quantization: (
+        f"meta-llama/Llama-2-{model_size}b-chat-hf"
+    )
+    MODEL_FAMILIES.append(
+        ModelFamily(
+            model_name="llama-2-pytorch",
+            model_sizes_in_billions=[7, 13, 70],
+            model_format="pytorch",
+            quantizations=["none"],
+            url_generator=llama2_pytorch_url_generator,
+            cls=Llama2ChatPytorch,
+        ),
+    )
+
+    llama2_pytorch_url_generator = lambda model_size, quantization: (
+        f"meta-llama/Llama-2-{model_size}b-chat-hf"
+    )
+    MODEL_FAMILIES.append(
+        ModelFamily(
+            model_name="llama-2-pytorch",
+            model_sizes_in_billions=[7, 13, 70],
+            model_format="pytorch",
+            quantizations=["none"],
+            url_generator=llama2_pytorch_url_generator,
+            cls=Llama2ChatPytorch,
         ),
     )
