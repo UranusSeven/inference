@@ -165,6 +165,7 @@ class LlamaCppModel(LLM):
                 ),
             ),
             verbose=False,
+            n_gqa=8,
             **self._llamacpp_model_config,
         )
 
