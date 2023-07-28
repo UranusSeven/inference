@@ -127,7 +127,7 @@ class LlamaCppModel(LLM):
 
         llamacpp_model_config.setdefault("embedding", True)
         llamacpp_model_config.setdefault("use_mmap", False)
-        llamacpp_model_config.setdefault("use_mlock", True)
+        # llamacpp_model_config.setdefault("use_mlock", True)
 
         if self._is_darwin_and_apple_silicon() and self._can_apply_metal():
             llamacpp_model_config.setdefault("n_gpu_layers", 1)
