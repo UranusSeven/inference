@@ -46,15 +46,15 @@ def _install():
     LLM_CLASSES.extend(
         [
             ChatglmCppChatModel,
-            LlamaCppModel,
             LlamaCppChatModel,
-            PytorchModel,
-            PytorchChatModel,
+            LlamaCppModel,
             BaichuanPytorchChatModel,
             VicunaPytorchChatModel,
-            FalconPytorchModel,
             FalconPytorchChatModel,
+            FalconPytorchModel,
             ChatglmPytorchChatModel,
+            PytorchChatModel,
+            PytorchModel,
             CtransformersModel,
         ]
     )
