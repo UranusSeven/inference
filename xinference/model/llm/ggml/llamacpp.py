@@ -143,7 +143,7 @@ class LlamaCppModel(LLM):
         elif self._is_linux() and self._can_apply_cublas():
             llamacpp_model_config.setdefault("n_gpu_layers", self._gpu_layers)
 
-        device_ids = os.environ.get("CUDA_VISIBLE_DEVICES")
+        device_ids = os.environ.get("HIP_VISIBLE_DEVICES")
         if device_ids:
             num_devices = len(
                 list(
