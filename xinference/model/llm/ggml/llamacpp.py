@@ -86,6 +86,7 @@ SIZE_TO_GPU_LAYERS = {
     13: 40,
     30: 60,
     65: 80,
+    180: 83,
 }
 
 
@@ -127,8 +128,8 @@ class LlamaCppModel(LLM):
         if self.model_family.context_length:
             llamacpp_model_config.setdefault("n_ctx", self.model_family.context_length)
         llamacpp_model_config.setdefault("embedding", True)
-        llamacpp_model_config.setdefault("use_mmap", False)
-        llamacpp_model_config.setdefault("use_mlock", True)
+        # llamacpp_model_config.setdefault("use_mmap", False)
+        # llamacpp_model_config.setdefault("use_mlock", True)
 
         if (
             "llama-2" in self.model_family.model_name
