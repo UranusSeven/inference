@@ -189,6 +189,7 @@ class LlamaCppModel(LLM):
         if os.path.exists(legacy_model_file_path):
             model_path = legacy_model_file_path
 
+        logger.debug(f"Launching {self.model_uid} with {self._llamacpp_model_config}")
         self._llm = Llama(
             model_path=model_path,
             verbose=False,
