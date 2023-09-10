@@ -848,7 +848,7 @@
       "intra_message_sep": "\n",
       "inter_message_sep": "<|endoftext|>",
       "stop": [
-        "\nUser"
+        "\nUser", "\nuser"
       ],
       "stop_token_ids": [
         0,
