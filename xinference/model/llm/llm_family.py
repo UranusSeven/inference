@@ -367,6 +367,7 @@ def cache_from_huggingface(
     )
     cache_dir = os.path.realpath(os.path.join(XINFERENCE_CACHE_DIR, cache_dir_name))
     if not os.path.exists(cache_dir):
+        logger.info(f"Cache {cache_dir} exists")
         os.makedirs(cache_dir, exist_ok=True)
 
     if llm_spec.model_format == "pytorch":
