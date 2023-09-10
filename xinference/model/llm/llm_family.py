@@ -367,7 +367,6 @@ def cache_from_huggingface(
     )
     cache_dir = os.path.realpath(os.path.join(XINFERENCE_CACHE_DIR, cache_dir_name))
     if not os.path.exists(cache_dir):
-        logger.info(f"Cache {cache_dir} exists")
         os.makedirs(cache_dir, exist_ok=True)
 
     if llm_spec.model_format == "pytorch":
@@ -393,7 +392,6 @@ def cache_from_huggingface(
                 f"(size: {llm_spec.model_size_in_billions}, format: {llm_spec.model_format}) "
                 f"after multiple retries"
             )
-
     elif llm_spec.model_format == "ggmlv3":
         assert isinstance(llm_spec, GgmlLLMSpecV1)
         file_name = llm_spec.model_file_name_template.format(quantization=quantization)
@@ -413,13 +411,14 @@ def cache_from_huggingface(
                 logger.warning(
                     f"Attempt {current_attempt} failed. Remaining attempts: {remaining_attempts}"
                 )
-
         else:
             raise RuntimeError(
                 f"Failed to download model '{llm_family.model_name}' "
                 f"(size: {llm_spec.model_size_in_billions}, format: {llm_spec.model_format}) "
                 f"after multiple retries"
             )
+    else:
+        raise ValueError(f"Unsupported model format: {llm_spec.model_format}")
 
     return cache_dir
 
