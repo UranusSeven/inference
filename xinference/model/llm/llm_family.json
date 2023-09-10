@@ -835,7 +835,7 @@
           "Q3_K_M"
         ],
         "model_id": "TheBloke/Falcon-180B-Chat-GGUF",
-        "model_file_name_template": "falcon-180b-chat.{quantization}.gguf.bin"
+        "model_file_name_template": "falcon-180b-chat.{quantization}.ggufv2.bin"
       }
     ],
     "prompt_style": {
