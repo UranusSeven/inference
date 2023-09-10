@@ -153,7 +153,7 @@ class LlamaCppModel(LLM):
                     )
                 )
             )
-            llamacpp_model_config.setdefault("tensor_split", [1.0 * num_devices])
+            llamacpp_model_config.setdefault("tensor_split", [1.0] * num_devices)
 
         return llamacpp_model_config
 
