@@ -73,6 +73,7 @@ class LlamaCppModelConfig(TypedDict, total=False):
     last_n_tokens_size: int
     lora_base: Optional[str]
     lora_path: Optional[str]
+    tensor_split: Optional[List[float]]
     low_vram: bool
     n_gqa: Optional[int]  # (TEMPORARY) must be 8 for llama2 70b
     rms_norm_eps: Optional[float]  # (TEMPORARY)
@@ -141,6 +142,18 @@ class LlamaCppModel(LLM):
             llamacpp_model_config.setdefault("n_gpu_layers", 1)
         elif self._is_linux() and self._can_apply_cublas():
             llamacpp_model_config.setdefault("n_gpu_layers", self._gpu_layers)
+
+        device_ids = os.environ.get("CUDA_VISIBLE_DEVICES")
+        if device_ids:
+            num_devices = len(
+                list(
+                    map(
+                        lambda i: int(i),
+                        device_ids.split(","),
+                    )
+                )
+            )
+            llamacpp_model_config.setdefault("tensor_split", [1.0 * num_devices])
 
         return llamacpp_model_config
 
