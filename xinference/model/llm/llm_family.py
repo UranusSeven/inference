@@ -32,7 +32,7 @@ DEFAULT_CONTEXT_LENGTH = 2048
 
 
 class GgmlLLMSpecV1(BaseModel):
-    model_format: Literal["ggmlv3"]
+    model_format: Literal["ggmlv3", "ggufv2"]
     model_size_in_billions: int
     quantizations: List[str]
     model_id: str
@@ -304,7 +304,7 @@ def cache_from_uri(
                     src_path = f"{path}/{file}"
                     local_path = src_path.replace(src_root, cache_dir)
                     files_to_download.append((src_path, local_path))
-        elif llm_spec.model_format == "ggmlv3":
+        elif llm_spec.model_format in ["ggmlv3", "ggufv2"]:
             file = llm_spec.model_file_name_template.format(quantization=quantization)
             if os.path.exists(os.path.join(cache_dir, file)):
                 logger.info(f"Cache {os.path.join(cache_dir, file)} exists")
@@ -386,7 +386,6 @@ def cache_from_huggingface(
                 logger.warning(
                     f"Attempt {current_attempt} failed. Remaining attempts: {remaining_attempts}"
                 )
-
         else:
             raise RuntimeError(
                 f"Failed to download model '{llm_family.model_name}' "
